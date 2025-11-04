@@ -1,9 +1,6 @@
 const tg = window.Telegram.WebApp;
-
-// Разворачиваем приложение
 tg.expand();
 
-// Получаем данные пользователя
 const user = tg.initDataUnsafe?.user;
 
 if (user) {
@@ -17,5 +14,5 @@ if (user) {
 
 document.getElementById("startGame").addEventListener("click", () => {
     tg.sendData(JSON.stringify({ action: "start_game" }));
-    alert("Игра скоро начнётся! 🔥");
+    alert("🎮 Игра скоро начнётся!");
 });
