@@ -1,41 +1,30 @@
 import os
-from flask import Flask, request
 import telebot
+from flask import Flask, request
 
-# Загружаем токен и URL Render
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL")
-
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
 
-# Корневая страница (чтобы Render видел активный порт)
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return "✅ Bot is running!", 200
+    return "Bot is running!", 200
 
-# Webhook для Telegram
 @app.route(f'/{BOT_TOKEN}', methods=['POST'])
 def webhook():
-    json_str = request.get_data().decode('UTF-8')
-    update = telebot.types.Update.de_json(json_str)
-    bot.process_new_updates([update])
+    json_data = request.get_json(force=True)
+    bot.process_new_updates([telebot.types.Update.de_json(json_data)])
     return '', 200
 
-# Обработка команды /start
+# === HANDLERS ===
 @bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, "👋 Привет! Бот успешно запущен на Render через Webhook!")
+def start_message(message):
+    bot.reply_to(message, "Привет! Бот успешно запущен на Render 🚀")
 
-# Установка вебхука при старте
-def set_webhook():
-    webhook_url = f"{RENDER_EXTERNAL_URL}/{BOT_TOKEN}"
-    bot.remove_webhook()
-    bot.set_webhook(url=webhook_url)
-    print(f"✅ Webhook установлен: {webhook_url}")
+@bot.message_handler(func=lambda m: True)
+def echo_all(message):
+    bot.reply_to(message, f"Ты написал: {message.text}")
 
-# Основная точка входа
 if __name__ == '__main__':
-    set_webhook()
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
