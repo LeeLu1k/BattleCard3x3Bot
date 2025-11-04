@@ -10,7 +10,7 @@ dp = Dispatcher(bot)
 app = Flask(__name__)
 
 # --- Telegram Bot ---
-WEB_APP_URL = "https://proud-quietude.up.railway.app"
+WEB_APP_URL = "worker-production-173e.up.railway.app"
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
