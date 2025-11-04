@@ -82,3 +82,39 @@ body {
     transform: translateY(2px);
     box-shadow: 0 2px 0 #008f6a;
 }
+.skins-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.skin-card {
+    background: #1f1f1f;
+    border: 2px solid #00ff9c;
+    border-radius: 8px;
+    padding: 8px;
+    width: 90px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.skin-card:hover {
+    transform: scale(1.1);
+}
+
+.skin-card img {
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+    border-radius: 4px;
+    border: 2px solid #00ff9c;
+}
+
+.skin-active {
+    border-color: #ffcc00 !important;
+    box-shadow: 0 0 10px #ffcc00;
+}
+
