@@ -1,37 +1,43 @@
 import os
-import telebot
 from flask import Flask, request
+import telebot
 
-TOKEN = os.environ.get("BOT_TOKEN")
-bot = telebot.TeleBot(TOKEN)
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
 
-# Проверка, что бот жив
-@app.route('/', methods=['GET'])
-def index():
-    return "Bot is alive!", 200
-
-# Основной webhook
-@app.route(f'/{TOKEN}', methods=['POST'])
+# === Telegram webhook ===
+@app.route(f"/{BOT_TOKEN}", methods=["POST", "GET"])
 def webhook():
-    json_data = request.get_json(force=True)
-    print("📩 Update received:", json_data)  # логируем апдейт
-    if json_data:
-        update = telebot.types.Update.de_json(json_data)
-        bot.process_new_updates([update])
-    return '', 200
+    if request.method == "POST":
+        update = request.get_json()
+        print(f"📩 Update received: {update}")
+        bot.process_new_updates([telebot.types.Update.de_json(update)])
+        return "OK", 200
+    else:
+        return "✅ Webhook is working!", 200
 
-# Обработчик команды /start
-@bot.message_handler(commands=['start'])
-def start(message):
-    print("🚀 /start обработан для:", message.chat.id)
-    bot.send_message(message.chat.id, "👋 Привет! Бот успешно работает на Render 🚀")
 
-# Эхо на любые другие сообщения
-@bot.message_handler(func=lambda message: True)
-def echo(message):
-    bot.send_message(message.chat.id, f"Ты написал: {message.text}")
+# === Простая проверка бота через браузер ===
+@app.route("/", methods=["GET"])
+def index():
+    return "🤖 Bot is alive and ready! Try /start in Telegram.", 200
+
+
+# === Тест-страница /start через браузер ===
+@app.route("/start", methods=["GET"])
+def start_test():
+    return "✅ /start работает (через браузер)!", 200
+
+
+# === Обработка команды /start в Telegram ===
+@bot.message_handler(commands=["start"])
+def start_message(message):
+    bot.send_message(
+        message.chat.id,
+        "👋 Привет! Бот запущен и готов к работе!"
+    )
+
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 10000)))
