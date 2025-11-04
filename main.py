@@ -1,35 +1,17 @@
-from aiogram import Bot, Dispatcher, types
-from aiogram.utils import executor
+from flask import Flask, send_from_directory
 import os
 
-TOKEN = os.getenv("BOT_TOKEN")  # или просто "вставь токен сюда" для теста
+app = Flask(__name__)
 
-bot = Bot(token=TOKEN)
-dp = Dispatcher(bot)
+@app.route('/')
+def index():
+    return send_from_directory('webapp', 'index.html')
 
-# 👇 твоя ссылка на web-app
-WEB_APP_URL = "https://worker-production-173e.up.railway.app/"
-
-@dp.message_handler(commands=['start'])
-async def start(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    web_app_button = types.KeyboardButton(
-        text="🎮 Открыть игру", web_app=types.WebAppInfo(url=WEB_APP_URL)
-    )
-    keyboard.add(web_app_button)
-    await message.answer("Привет! Нажми кнопку, чтобы открыть игру 👇", reply_markup=keyboard)
-
-
-@dp.message_handler(commands=['play'])
-async def play(message: types.Message):
-    # Альтернативная версия через inline кнопку
-    keyboard = types.InlineKeyboardMarkup()
-    btn = types.InlineKeyboardButton(
-        text="🎮 Играть сейчас", web_app=types.WebAppInfo(url=WEB_APP_URL)
-    )
-    keyboard.add(btn)
-    await message.answer("Готов к битве? 😎", reply_markup=keyboard)
-
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('webapp', path)
 
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+    # Railway даёт переменную PORT, обычно 8080
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
