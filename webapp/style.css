@@ -4,12 +4,39 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Press Start 2P', cursive;
-    background: #1b1b1b;
+    background: linear-gradient(to bottom, #7ec0ee 0%, #b5eaff 60%, #5b3b22 61%, #3e2615 100%);
     color: #fff;
     image-rendering: pixelated;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Пиксельный пейзаж — горы и земля */
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-repeat: repeat-x;
+    image-rendering: pixelated;
+}
+
+body::before {
+    top: 60%;
+    height: 80px;
+    background-image: url("https://i.imgur.com/2uZ9Lha.png"); /* пиксельные горы */
+    background-size: 300px 80px;
+}
+
+body::after {
+    bottom: 0;
+    height: 100px;
+    background-image: url("https://i.imgur.com/mnS1WkK.png"); /* земля */
+    background-size: 200px 100px;
 }
 
 /* Верхняя панель */
@@ -17,10 +44,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #2b2b2b;
+    background: rgba(43, 43, 43, 0.8);
     border-bottom: 4px solid #00ff9c;
     padding: 10px 16px;
     font-size: 12px;
+    z-index: 10;
+    position: relative;
 }
 
 .game-title {
@@ -37,15 +66,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    z-index: 2;
 }
 
 .window {
-    background: #292929;
+    background: rgba(41, 41, 41, 0.9);
     border: 4px solid #00ff9c;
-    box-shadow: 0 0 10px #00ff9c;
+    box-shadow: 0 0 15px #00ff9c;
     padding: 30px 40px;
     text-align: center;
     max-width: 350px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .title {
