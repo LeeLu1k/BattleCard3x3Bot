@@ -10,9 +10,16 @@ dp = Dispatcher(bot)
 app = Flask(__name__)
 
 # --- Telegram Bot ---
+WEB_APP_URL = "https://proud-quietude.up.railway.app"
+
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    await message.answer("Привет! Нажми /menu чтобы открыть игру.")
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    web_app_btn = types.KeyboardButton(
+        text="🎮 Открыть игру", web_app=types.WebAppInfo(url=WEB_APP_URL)
+    )
+    keyboard.add(web_app_btn)
+    await message.answer("Привет! Готов сыграть? 👇", reply_markup=keyboard)
 
 @dp.message_handler(commands=['menu'])
 async def menu(message: types.Message):
