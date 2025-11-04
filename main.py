@@ -1,20 +1,40 @@
-import telebot
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 import os
+from flask import Flask, request
+import telebot
 
-# === 1. Настройки ===
-BOT_TOKEN = os.getenv("BOT_TOKEN") or "8439963996:AAG5rNpBrPdBZTB5iaMCLNtCn8wSD_Ozdpc"  # 👈 заменишь или задашь в Render Variables
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL")
 
 bot = telebot.TeleBot(BOT_TOKEN)
+app = Flask(__name__)
 
-# === 2. Команда /start ===
+# Простой маршрут для проверки
+@app.route('/')
+def index():
+    return "Bot is running!", 200
+
+# Обработка обновлений от Telegram
+@app.route(f'/{BOT_TOKEN}', methods=['POST'])
+def webhook():
+    json_str = request.get_data().decode('UTF-8')
+    update = telebot.types.Update.de_json(json_str)
+    bot.process_new_updates([update])
+    return '', 200
+
+# Установка webhook при старте
+@app.before_first_request
+def set_webhook():
+    webhook_url = f"{RENDER_EXTERNAL_URL}/{BOT_TOKEN}"
+    bot.remove_webhook()
+    bot.set_webhook(url=webhook_url)
+    print(f"✅ Webhook set to {webhook_url}")
+
+# Обработчики команд
 @bot.message_handler(commands=['start'])
 def start(message):
-    web_app = WebAppInfo(url="https://your-app-name.onrender.com/index.html")  # 👈 заменишь на свой Render URL
-    kb = ReplyKeyboardMarkup(resize_keyboard=True)
-    kb.add(KeyboardButton(text="🎮 Играть", web_app=web_app))
-    bot.send_message(message.chat.id, "Привет! Готов к битве 3×3? ⚔️", reply_markup=kb)
+    bot.reply_to(message, "Привет! Бот успешно запущен на Render 🚀")
 
-# === 3. Запуск ===
-print("✅ Бот запущен!")
-bot.infinity_polling()
+# Flask приложение должно слушать порт из окружения
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
