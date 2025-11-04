@@ -1,67 +1,64 @@
 body {
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at center, #1a1a2e, #0f3460);
-  color: #fff;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    font-size: 1.1rem;
+}
+
+.game-title {
+    font-weight: bold;
+}
+
+.user-name {
+    opacity: 0.9;
 }
 
 .container {
-  text-align: center;
-  width: 90%;
-  max-width: 400px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .title {
-  margin-bottom: 20px;
-  font-size: 28px;
-  text-shadow: 0 0 10px #fff;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-bottom: 40px;
 }
 
 .btn {
-  background: linear-gradient(145deg, #16213e, #0f3460);
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  margin: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn:hover {
-  background: #e94560;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.card {
-  padding: 20px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  font-weight: bold;
-}
-
-.card.common { border: 2px solid #00ff00; }
-.card.rare { border: 2px solid #007bff; }
-.card.epic { border: 2px solid #a200ff; }
-.card.legendary { border: 2px solid #ffcc00; }
-
-.hidden {
-  display: none;
+    background: #2563eb;
+    transform: scale(1.05);
 }
