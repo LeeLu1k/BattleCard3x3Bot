@@ -13,10 +13,20 @@
     </header>
 
     <div class="container">
-        <div class="window">
+        <div class="window" id="mainMenu">
             <h1 class="title">⚔️ Добро пожаловать!</h1>
             <p class="subtitle">Собери свою колоду и начни битву!</p>
             <button id="startGame" class="btn">▶ Начать игру</button>
+            <br><br>
+            <button id="openSkins" class="btn">🎨 Мои скины</button>
+        </div>
+
+        <!-- Окно скинов -->
+        <div class="window" id="skinsMenu" style="display:none;">
+            <h1 class="title">🎨 Мои скины</h1>
+            <div id="skinsList" class="skins-list"></div>
+            <br>
+            <button id="backToMenu" class="btn">⬅ Назад</button>
         </div>
     </div>
 
