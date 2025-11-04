@@ -1,37 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Card Arena</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Battle</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1 class="title">🃏 Card Arena</h1>
-    <div class="menu">
-      <button id="btnCards" class="btn">📚 Мои карты</button>
-      <button id="btnPack" class="btn">🎁 Открыть бустер</button>
-      <button id="btnFight" class="btn">⚔️ В бой</button>
+    <header class="header">
+        <div class="game-title">⚔️ Card Battle</div>
+        <div class="user-name" id="userName">Загрузка...</div>
+    </header>
+
+    <div class="container">
+        <h1 class="title">Добро пожаловать в игру!</h1>
+        <p class="subtitle">Собери свою колоду и победи противников!</p>
+        <button id="startGame" class="btn">Начать игру</button>
     </div>
 
-    <div id="collection" class="hidden">
-      <h2>Твоя коллекция</h2>
-      <div class="cards">
-        <div class="card common">🟩 Common</div>
-        <div class="card rare">🟦 Rare</div>
-        <div class="card epic">🟪 Epic</div>
-        <div class="card legendary">🟨 Legendary</div>
-      </div>
-    </div>
-
-    <div id="pack" class="hidden">
-      <h2>🎁 Открываем бустер...</h2>
-      <div id="packResult"></div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
