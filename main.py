@@ -24,6 +24,7 @@ def webhook():
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def start(message):
+    print("🚀 /start обработан для:", message.chat.id)
     bot.send_message(message.chat.id, "👋 Привет! Бот успешно работает на Render 🚀")
 
 # Эхо на любые другие сообщения
