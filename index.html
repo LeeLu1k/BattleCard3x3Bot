@@ -1,39 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BattleCard 3x3</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #181818, #202020);
-      color: #fff;
-      text-align: center;
-      padding-top: 80px;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-    button {
-      background: #4CAF50;
-      color: white;
-      padding: 14px 28px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover {
-      background: #45a049;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Battle</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>⚔️ BattleCard 3x3 ⚔️</h1>
-  <p>Добро пожаловать в игру!</p>
-  <button onclick="alert('Игра скоро начнётся!')">Играть</button>
+    <header class="header">
+        <div class="game-title">⚔️ Card Battle</div>
+        <div class="user-name" id="userName">Загрузка...</div>
+    </header>
+
+    <div class="container">
+        <h1 class="title">Добро пожаловать в игру!</h1>
+        <p class="subtitle">Собери свою колоду и победи противников!</p>
+        <button id="startGame" class="btn">Начать игру</button>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
