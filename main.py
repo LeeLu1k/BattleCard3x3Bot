@@ -1,43 +1,30 @@
 import os
-from flask import Flask, request
 import telebot
+from flask import Flask, request
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
 
-# === Telegram webhook ===
-@app.route(f"/{BOT_TOKEN}", methods=["POST", "GET"])
-def webhook():
-    if request.method == "POST":
-        update = request.get_json()
-        print(f"📩 Update received: {update}")
-        bot.process_new_updates([telebot.types.Update.de_json(update)])
-        return "OK", 200
-    else:
-        return "✅ Webhook is working!", 200
-
-
-# === Простая проверка бота через браузер ===
 @app.route("/", methods=["GET"])
-def index():
-    return "🤖 Bot is alive and ready! Try /start in Telegram.", 200
+def home():
+    return "🤖 Bot is alive and ready! Try /start in Telegram."
 
+@app.route(f"/{BOT_TOKEN}", methods=["POST"])
+def webhook():
+    json_update = request.get_json(force=True)
+    print("📩 Update received:", json_update, flush=True)
+    update = telebot.types.Update.de_json(json_update)
+    bot.process_new_updates([update])
+    return "ok", 200
 
-# === Тест-страница /start через браузер ===
-@app.route("/start", methods=["GET"])
-def start_test():
-    return "✅ /start работает (через браузер)!", 200
-
-
-# === Обработка команды /start в Telegram ===
 @bot.message_handler(commands=["start"])
 def start_message(message):
-    bot.send_message(
-        message.chat.id,
-        "👋 Привет! Бот запущен и готов к работе!"
-    )
-
+    print(f"➡️ /start received from: @{message.from_user.username} (id={message.chat.id})", flush=True)
+    bot.reply_to(message, "👋 Привет! Бот успешно запущен и работает на Render!")
+    print(f"✅ Reply sent to: @{message.from_user.username}", flush=True)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 10000)))
+    # Webhook only — polling не нужен
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
